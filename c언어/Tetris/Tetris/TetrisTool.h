@@ -21,6 +21,7 @@ namespace TetrisTool {
 	void dropblock();
 	//움직이는 블록->굳은 블록 변환
 	void changebolck();
+	void initdraw();
 	//블록이 다찼을때 제거
 	void breakblock();
 	//게임 끝

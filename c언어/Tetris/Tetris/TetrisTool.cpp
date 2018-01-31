@@ -11,8 +11,8 @@
 #define UP 72
 #define DOWN 80
 #define SPACE 32
-#define TetrisSize_H 25
-#define TetrisSize_W 15
+#define TetrisSize_H 23
+#define TetrisSize_W 12
 #define cursorx 2
 #define cursory 2
 int score = 0;
@@ -82,8 +82,7 @@ namespace TetrisTool {
 			for (int j = 0; j < TetrisSize_W; j++) {
 				if (CapyTable[i][j] != TetrisTable[i][j]) {
 					SetCursorPosition((cursorx+j)*2, cursory+i);
-					switch (TetrisTable[i][j])
-					{
+					switch (TetrisTable[i][j]){
 					case 0:
 						printf("  ");
 						break;
@@ -109,12 +108,12 @@ namespace TetrisTool {
 			}
 		}
 		
-		SetCursorPosition(cursorx + 24 * 2, cursory + 9 + 2);printf("         Level: %d       ", level);
-		SetCursorPosition(cursorx + 24 * 2, cursory + 12 + 2);printf("         Score: %-5d  ", score);
+		SetCursorPosition(cursorx + 20 * 2, cursory + 9 + 2);printf("         Level: %d       ", level);
+		SetCursorPosition(cursorx + 20 * 2, cursory + 12 + 2);printf("         Score: %-5d  ", score);
 		
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				SetCursorPosition((cursorx +18*2)+j * 2, cursory + i+19);
+				SetCursorPosition((cursorx +16*2)+j * 2, cursory + i+18);
 				switch (block[nextblock][0][i][j])
 				{
 				case 0:
@@ -130,34 +129,13 @@ namespace TetrisTool {
 
 	void init() {
 		b_type = rand() % 7;
-		count = 1;
 		level = 1;
 		score = 0;
+		speed = 60;
+		x = (TetrisSize_W) / 2-2;
+		y = 0;
 		CursorVisible(false);
-		SetCursorPosition(cursorx + 20 * 2, cursory + count++);
-		printf("¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á  ¡á¡á¡á");
-		SetCursorPosition(cursorx + 20 * 2, cursory + count++);
-		printf("   ¡á     ¡á           ¡á     ¡á    ¡á  ¡á  ¡á    ");
-		SetCursorPosition(cursorx + 20 * 2, cursory + count++);
-		printf("   ¡á     ¡á¡á¡á¡á     ¡á     ¡á¡á¡á¡á  ¡á  ¡á¡á¡á");
-		SetCursorPosition(cursorx + 20 * 2, cursory + count++);
-		printf("   ¡á     ¡á           ¡á     ¡á  ¡á    ¡á      ¡á");
-		SetCursorPosition(cursorx + 20 * 2, cursory + count++);
-		printf("   ¡á     ¡á¡á¡á¡á     ¡á     ¡á    ¡á  ¡á  ¡á¡á¡á");
-		SetCursorPosition(cursorx + 18 * 2, cursory + 17);
-		printf("Next block");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 18);
-		printf("¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 19);
-		printf("¢Ì          ¢Ì");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 20);
-		printf("¢Ì          ¢Ì");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 21);
-		printf("¢Ì          ¢Ì");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 22);
-		printf("¢Ì          ¢Ì");
-		SetCursorPosition(cursorx + 17 * 2, cursory + 23);
-		printf("¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì");
+		initdraw();
 		srand((unsigned)time(NULL));
 		for (int i = 0; i < TetrisSize_H; i++) {
 			for (int j = 0; j < TetrisSize_W; j++) {
@@ -180,7 +158,7 @@ namespace TetrisTool {
 	}
 
 	void newblock() {
-		x = (TetrisSize_W)/ 2 -1;
+		x = (TetrisSize_W) / 2 - 2;
 		y = 0;
 		b_type = nextblock;
 		nextblock = rand() % 7;
@@ -195,7 +173,7 @@ namespace TetrisTool {
 
 	void breakblock() {
 		int count = 0;
-		int count1 = 1;
+		int countLevel = 1;
 		int breakx;
 		for (int i = 0; i < TetrisSize_H; i++) {
 			count = 0;
@@ -204,7 +182,7 @@ namespace TetrisTool {
 					count++;
 			}
 			if (count == TetrisSize_W - 2) {
-				count1++;
+				countLevel++;
 				breakx = i;
 				for (int j = 0; j < TetrisSize_W; j++) {
 					if (TetrisTable[i][j] == 2) {
@@ -221,11 +199,67 @@ namespace TetrisTool {
 				}
 			}
 		}
-		for (int i = 0;i < count1; i++) {
+		for (int i = 0;i < countLevel; i++) {
 			score += 10 * i * level;
 		}
 	}
-
+	void initdraw() {
+		count = 1;
+		int Titlex = cursorx + 16 * 2;
+		int NBx = cursorx + 15 * 2;
+		SetCursorPosition(Titlex, cursory + count++);
+		printf("¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á¡á¡á¡á  ¡á  ¡á¡á¡á");
+		SetCursorPosition(Titlex, cursory + count++);
+		printf("   ¡á     ¡á           ¡á     ¡á    ¡á  ¡á  ¡á    ");
+		SetCursorPosition(Titlex, cursory + count++);
+		printf("   ¡á     ¡á¡á¡á¡á     ¡á     ¡á¡á¡á¡á  ¡á  ¡á¡á¡á");
+		SetCursorPosition(Titlex, cursory + count++);
+		printf("   ¡á     ¡á           ¡á     ¡á  ¡á    ¡á      ¡á");
+		SetCursorPosition(Titlex, cursory + count++);
+		printf("   ¡á     ¡á¡á¡á¡á     ¡á     ¡á    ¡á  ¡á  ¡á¡á¡á");
+		SetCursorPosition(NBx+2, cursory + 15);
+		printf("Next block");
+		SetCursorPosition(NBx, cursory + 17);
+		printf("¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì");
+		SetCursorPosition(NBx, cursory + 18);
+		printf("¢Ì          ¢Ì");
+		SetCursorPosition(NBx, cursory + 19);
+		printf("¢Ì          ¢Ì");
+		SetCursorPosition(NBx, cursory + 20);
+		printf("¢Ì          ¢Ì");
+		SetCursorPosition(NBx, cursory + 21);
+		printf("¢Ì          ¢Ì");
+		SetCursorPosition(NBx, cursory + 22);
+		printf("¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì¢Ì");
+		SetCursorPosition(0, cursory + 24);
+		printf("\t¡ã = ROTATE \t P = PASUE \n\t¢¸ = move left \t R = Reset\n\t¢º = move right  Space Bar = dorp\n\t¡å = move down");
+		for (int i = 1; i < TetrisSize_W - 1; i++) {
+			if (TetrisTable[2][i] == 0)
+				TetrisTable[2][i] = 4;
+		}
+		for (int i = 0; i < TetrisSize_H; i++) {
+			for (int j = 0; j < TetrisSize_W; j++) {
+					SetCursorPosition((cursorx + j) * 2, cursory + i);
+					switch (TetrisTable[i][j]) {
+					case 0:
+						printf("  ");
+						break;
+					case 1:
+						printf("¡á");
+						break;
+					case 2:
+						printf("¡à");
+						break;
+					case 3:
+						printf("¢Ì");
+						break;
+					case 4:
+						printf("-");
+						break;
+					}
+				}
+			}
+	}
 	void InputDir() {
 		int key = 0;
 		int c = 0;
@@ -233,6 +267,23 @@ namespace TetrisTool {
 		if (_kbhit()) {
 				key = _getch();
 				switch (key) {
+				case 'p':
+					system("cls");
+					printf("\n\n\t¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç\n");
+					printf("\t¢Ç  +-----------------------+   ¢Ç\n");
+					printf("\t¢Ç  |                       |   ¢Ç\n");
+					printf("\t¢Ç  |       P A U S E       |   ¢Ç\n");
+					printf("\t¢Ç  |                       |   ¢Ç\n");
+					printf("\t¢Ç  +-----------------------+   ¢Ç\n");
+					printf("\t¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç¢Ç\n");
+					system("PAUSE");
+					system("cls");
+					initdraw();
+					break;
+				case 'r':
+					Sleep(100);
+					init();
+					break;
 				case UP:
 					if (check(x, y, b_rotation+1) == true)
 						move(UP);
