@@ -1,3 +1,6 @@
-﻿  TetrisTool.cpp
-c:\users\kyo\desktop\project\tetris\tetris\tetristool.cpp(72): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  Tetris.vcxproj -> C:\Users\kyo\Desktop\project\Tetris\Debug\Tetris.exe
+﻿  stdafx.cpp
+  TetrisTool.cpp
+c:\users\kyo\documents\ktm\c언어\tetris\tetris\tetristool.cpp(72): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+  Tetris.cpp
+  코드를 생성하고 있습니다...
+  Tetris.vcxproj -> C:\Users\kyo\Documents\KTM\c언어\Tetris\Debug\Tetris.exe
